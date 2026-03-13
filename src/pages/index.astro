@@ -1,11 +1,12 @@
 
 ---
-import "../styles/global.css";
-export interface Props { title?: string; description?: string; }
-const { title = "QiFlow", description = "QiFlow site" } = Astro.props;
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
-<!DOCTYPE html>
-<html lang="es">
-  <head>…</head>
-  <body><main><slot /></main></body>
-</html>
+<BaseLayout title="QiFlow — Warehouse & Logistics Optimization" description="Consultora boutique que optimiza almacenes y logística con análisis, diseño y resultados medibles.">
+  <section class="qf-sec qf-sec--hero qf-center qf-reveal">
+    <div class="qf-wrap">
+      <h1 class="qf-h1">QiFlow</h1>
+      <p class="qf-sub">Consultora boutique que optimiza almacenes y logística con análisis, diseño y resultados medibles.</p>
+    </div>
+  </section>
+</BaseLayout>
