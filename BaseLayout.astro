@@ -1,0 +1,81 @@
+
+---
+const { title = 'QiFlow Consulting Group', description = 'Warehouse & Logistics Optimization', canonical } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {canonical && <link rel="canonical" href={canonical} />}
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--qf-gold:#C8A96A;--qf-black:#0B1F2A;--qf-white:#FFF;--qf-ink:#1F2A33;--qf-stone:#EDEFF2;--qf-maxw:1120px;--qf-gap:24px}
+    html,body{margin:0;padding:0;background:var(--qf-white);color:var(--qf-ink)}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6}
+    .qf-h1{font-family:'Playfair Display',serif;font-weight:600;font-size:48px;line-height:1.15;margin:0 0 12px}
+    .qf-h2{font-family:'Playfair Display',serif;font-weight:600;font-size:36px;line-height:1.2;margin:0 0 12px}
+    .qf-h3{font-weight:600;font-size:20px;margin:0 0 8px}
+    .qf-sub{color:#516170;font-size:18px}.qf-muted{color:#667580}
+    .qf-wrap{max-width:var(--qf-maxw);margin:0 auto;padding:0 20px}
+    .qf-sec{padding:72px 0;border-top:1px solid var(--qf-stone)}.qf-sec--hero{padding:96px 0 72px;border-top:none}
+    .qf-center{text-align:center}
+    .qf-btn{display:inline-block;padding:12px 20px;border:1px solid var(--qf-gold);color:var(--qf-black);text-decoration:none;border-radius:999px;transition:.2s ease;font-weight:600}
+    .qf-btn:hover{background:var(--qf-gold);color:#FFF;transform:translateY(-1px)}
+    .qf-grid{display:grid;gap:var(--qf-gap)}
+    @media(min-width:640px){.qf-grid--cards{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:960px){.qf-grid--cards{grid-template-columns:repeat(3,1fr)}}
+    .qf-card{background:#FFF;border:1px solid var(--qf-stone);border-radius:12px;padding:20px;transition:box-shadow .2s ease,transform .2s ease}
+    .qf-card:hover{box-shadow:0 12px 28px rgba(0,0,0,.06);transform:translateY(-2px)}
+    header.qf-header{position:sticky;top:0;z-index:999;background:#fff;border-bottom:1px solid #E8E2D5}
+    .qf-header-inner{max-width:1200px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+    .qf-logo{height:48px;width:auto}
+    nav.qf-nav{display:flex;gap:24px;align-items:center}
+    nav.qf-nav a{text-decoration:none;font:600 15px Inter,sans-serif;color:#0B1F2A;transition:.2s}
+    nav.qf-nav a:hover{color:var(--qf-gold)}
+    .qf-burger{display:none;gap:6px;flex-direction:column;cursor:pointer}
+    .qf-burger span{width:24px;height:2px;background:#0B1F2A;transition:.2s}
+    @media(max-width:768px){nav.qf-nav{display:none;position:fixed;inset:64px 0 auto 0;background:#fff;border-top:1px solid #E8E2D5;flex-direction:column;padding:16px 24px}nav.qf-nav.is-open{display:flex}.qf-burger{display:flex}}
+    footer.qf-footer{padding:48px 0 72px;border-top:1px solid var(--qf-stone);background:#fff}
+    .qf-foot{max-width:1200px;margin:0 auto;padding:0 24px;text-align:center}
+    .qf-foot .brand{display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:8px}
+    .qf-foot .brand img{height:28px;width:auto}
+    .qf-foot .tag{color:#475663}.qf-foot .note{color:#6E7A85;font-size:14px;margin-top:8px}
+    .qf-reveal{opacity:0;transform:translateY(12px);transition:opacity .5s, transform .5s}
+    .qf-reveal.is-in{opacity:1;transform:none}
+  </style>
+</head>
+<body>
+  <header class="qf-header">
+    <div class="qf-header-inner">
+      <a href="/"><img src="/qiflow_logo.png" alt="QiFlow" class="qf-logo" /></a>
+      <nav id="qfNav" class="qf-nav">
+        <a href="/">Home</a>
+        <a href="/resource-center">Resource Center</a>
+        <a href="/services">Services</a>
+        <a href="/about">About</a>
+        <a href="/case-studies">Case Studies</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <button id="qfBurger" aria-label="Menu" class="qf-burger" type="button"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer class="qf-footer">
+    <div class="qf-foot">
+      <div class="brand"><img src="/qiflow_logo.png" alt="QiFlow logo" /><strong>QiFlow Consulting Group</strong></div>
+      <div class="tag">Warehouse & Logistics Optimization</div>
+      <div class="note">© 2026 QiFlow Consulting Group — info@qiflow.com</div>
+    </div>
+  </footer>
+  <script is:inline>
+    (function(){const els=document.querySelectorAll('.qf-reveal');const io=new IntersectionObserver((o)=>{o.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}})},{threshold:0.12});els.forEach(el=>io.observe(el));})();
+    (function(){const b=document.getElementById('qfBurger');const n=document.getElementById('qfNav');if(!b||!n)return;b.addEventListener('click',()=>n.classList.toggle('is-open'));n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>n.classList.remove('is-open')));window.addEventListener('resize',()=>{if(window.innerWidth>768)n.classList.remove('is-open')});})();
+  </script>
+</body>
+</html>
