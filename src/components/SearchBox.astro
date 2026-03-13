@@ -1,0 +1,39 @@
+
+---
+const { placeholder = 'Search…' } = Astro.props;
+---
+<style>
+  .qf-search { display:grid; gap:12px; }
+  .qf-input  { width:100%; max-width:560px; padding:12px 14px; border:1px solid var(--qf-stone); border-radius:10px; font-size:16px }
+  .qf-results{ list-style:none; margin:0; padding:0; display:grid; gap:10px; max-width:800px }
+  .qf-item   { border:1px solid var(--qf-stone); border-radius:10px; padding:12px 14px; background:#FFF }
+  .qf-item a { text-decoration:none; color:#0B1F2A; font-weight:600 }
+  mark       { background: #fff0c2; color: inherit; padding:0 2px; border-radius:3px }
+</style>
+<div class="qf-search">
+  <input id="qfSearch" class="qf-input" type="search" placeholder={placeholder} aria-label="Search" />
+  <ul id="qfResults" class="qf-results"></ul>
+</div>
+<script is:inline>
+  (function(){
+    const input = document.getElementById('qfSearch');
+    const list  = document.getElementById('qfResults');
+    let index = [];
+    const norm = s => (s||'').toLowerCase();
+    const has = (t,q) => norm(t).includes(q);
+    const mark = (t,q) => { const i = norm(t).indexOf(q); return (i<0||!q) ? t : `${t.slice(0,i)}<mark>${t.slice(i,i+q.length)}</mark>${t.slice(i+q.length)}` };
+    fetch('/search.json').then(r=>r.json()).then(d=>index=d).catch(()=>{ index=[]; });
+    input.addEventListener('input', e=>{
+      const q = norm(e.target.value.trim());
+      list.innerHTML=''; if(!q) return;
+      index.filter(p => has(p.title,q) || has(p.description,q) || (p.tags||[]).some(t=>has(t,q)))
+           .slice(0,12)
+           .forEach(p=>{
+             const li = document.createElement('li');
+             li.className = 'qf-item';
+             li.innerHTML = `<a href="${p.url}">${mark(p.title,q)}</a><div class="qf-muted" style="margin-top:4px">${mark(p.description||'',q)}</div>`;
+             list.appendChild(li);
+           });
+    });
+  })();
+</script>
